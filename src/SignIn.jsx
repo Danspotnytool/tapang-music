@@ -21,7 +21,7 @@ import paddingCreator from './utils/paddingCreator';
 import background from './images/background.jpg';
 import Logo from './svg/Logo.svg';
 
-const Login = () => {
+const SignIn = () => {
 	return (
 		<ImageBackground
 			source={background}
@@ -116,4 +116,4 @@ const Login = () => {
 	);
 };
 
-registerRootComponent(Login);
+registerRootComponent(SignIn);
