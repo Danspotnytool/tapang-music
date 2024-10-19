@@ -22,7 +22,7 @@ import paddingCreator from '../utils/paddingCreator';
 const Button = (props) => {
 	return (
 		<Heading
-			level={6}
+			level={5}
 
 			style={{
 				...paddingCreator(
@@ -35,7 +35,7 @@ const Button = (props) => {
 
 				cursor: 'pointer',
 
-				borderRadius: borderRadius.medium,
+				borderRadius: borderRadius.small,
 
 				width: props.width === 'fill' ? '100%' : 'auto',
 				backgroundColor: props.type === 'secondary' ? null : colors.primary,

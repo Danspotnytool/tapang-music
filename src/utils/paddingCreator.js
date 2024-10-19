@@ -13,12 +13,12 @@
  * }}
  */
 export default paddingCreator = (
-	a = 0,
-	b = 0,
-	c = 0,
-	d = 0
+	a,
+	b,
+	c,
+	d
 ) => {
-	// If only one argument is passed, apply it to all sides
+	// If only a is filled
 	if (a && !(b || c || d)) {
 		return {
 			paddingTop: a,
@@ -27,8 +27,7 @@ export default paddingCreator = (
 			paddingLeft: a
 		};
 	};
-
-	// If two arguments are passed, apply the first to the top and bottom, and the second to the left and right
+	// If only a and b is filled
 	if (a && b && !(c || d)) {
 		return {
 			paddingTop: a,
@@ -37,8 +36,7 @@ export default paddingCreator = (
 			paddingLeft: b
 		};
 	};
-
-	// If three arguments are passed, apply the first to the top, the second to the left and right, and the third to the bottom
+	// If all are filled except for d
 	if (a && b && c && !d) {
 		return {
 			paddingTop: a,
@@ -47,8 +45,7 @@ export default paddingCreator = (
 			paddingLeft: b
 		};
 	};
-
-	// If all four arguments are passed, apply them to the top, right, bottom, and left
+	// If all are filled
 	return {
 		paddingTop: a,
 		paddingRight: b,

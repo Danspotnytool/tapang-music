@@ -57,12 +57,12 @@ export const fontSizes = {
 	medium: size,
 	large: size * 2,
 
-	h1: size * 3,
-	h2: size * 2.75,
-	h3: size * 2.5,
-	h4: size * 2.25,
-	h5: size * 1.75,
-	h6: size * 1.5
+	h1: ((size / 3) * 2) * 3,
+	h2: ((size / 3) * 2) * 2.5,
+	h3: ((size / 3) * 2) * 2,
+	h4: ((size / 3) * 2) * 1.625,
+	h5: ((size / 3) * 2) * 1.25,
+	h6: ((size / 3) * 2)
 };
 globals.fontSizes = fontSizes;
 

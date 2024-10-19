@@ -3,24 +3,23 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Dimensions, ImageBackground } from 'react-native';
 import * as React from 'react';
 
-import Button from './components/Button';
 import { Text, Heading } from './components/Text';
+import Button from './components/Button';
+import Input from './components/Input';
 
 import {
 	colors,
 	padding,
 	size,
 	gap,
-	fontSizes
+	fontSizes,
+	fontWeights
 } from './utils/globals';
 import paddingCreator from './utils/paddingCreator';
 
 // Preload images
 import background from './images/background.jpg';
 import Logo from './svg/Logo.svg';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const Login = () => {
 	return (
@@ -53,11 +52,13 @@ const Login = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'space-between',
-				gap: gap.large,
+				gap: gap.large * 2,
 
-				backgroundColor: 'rgba(0, 0, 0, 0.5)'
+				backgroundColor: 'rgba(0, 0, 0, 0.75)'
 			}}>
 				<View style={{
+					width: '100%',
+					maxWidth: size * 30,
 					display: 'flex',
 					justifyContent: 'center',
 					alignItems: 'center',
@@ -67,11 +68,48 @@ const Login = () => {
 						width={(size * 2) * 4}
 						height={(size * 2) * 4}
 					/>
-					<Heading level={1}>Tapang Music</Heading>
+					<Heading level={1} style={{ textAlign: 'center' }}>Tapang Music</Heading>
 				</View>
 
+				<View style={{
+					width: '100%',
+					maxWidth: size * 30,
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					gap: gap.large
+				}}>
+					<Input
+						label='Email'
+						placeholder=''
+					/>
+					<Input
+						label='Password'
+						placeholder=''
+						type='password'
+					/>
+
 				<Button label='Sign In' type='primary' width='fill' onPress={() => { }} />
-				<Button label='Sign In' type='secondary' width='fill' onPress={() => { }} />
+				</View>
+
+				<View
+					style={{
+						width: '100%',
+						maxWidth: size * 30,
+						justifyContent: 'flex-end',
+						alignItems: 'center',
+						gap: 0
+					}}
+				>
+					<Text
+						style={{
+							textAlign: 'center',
+							gap: 0,
+							fontWeight: fontWeights.thin
+						}}
+						weight='thin'
+					>Don't have an account? <Text weight='regular'>Sign up now!</Text></Text>
+				</View>
 			</View>
 			<StatusBar translucent backgroundColor='transparent' style='auto' />
 		</ImageBackground>
