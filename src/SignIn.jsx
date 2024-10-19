@@ -1,5 +1,4 @@
 import { registerRootComponent } from 'expo';
-import { StatusBar } from 'expo-status-bar';
 import { View, ImageBackground } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as React from 'react';
@@ -26,7 +25,6 @@ NavigationBar.setPositionAsync('absolute');
 NavigationBar.setBackgroundColorAsync('#ffffff00');
 
 const SignIn = (props) => {
-
 	return (
 		<ImageBackground
 			source={background}
@@ -59,7 +57,9 @@ const SignIn = (props) => {
 				justifyContent: 'space-between',
 				gap: gap.large * 2,
 
-				backgroundColor: 'rgba(0, 0, 0, 0.75)'
+				backgroundColor: 'rgba(0, 0, 0, 0.75)',
+
+				overflowY: 'scroll'
 			}}>
 				<View style={{
 					width: '100%',
@@ -119,7 +119,6 @@ const SignIn = (props) => {
 					>Don't have an account? <Text weight='regular'>Sign up now!</Text></Text>
 				</View>
 			</View>
-			<StatusBar translucent backgroundColor='transparent' style='dark' />
 		</ImageBackground>
 	);
 };
