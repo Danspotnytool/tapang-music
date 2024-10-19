@@ -47,6 +47,8 @@ const SignIn = (props) => {
 				width: '100%',
 				height: '100%',
 
+				flex: 1,
+
 				...paddingCreator(
 					padding.large * 2,
 					padding.large
@@ -73,7 +75,7 @@ const SignIn = (props) => {
 						width={(size * 2) * 4}
 						height={(size * 2) * 4}
 					/>
-					<Heading level={1} style={{ textAlign: 'center' }}>Tapang Music</Heading>
+					<Heading level={1} style={{ textAlign: 'left' }}>Tapang Music</Heading>
 				</View>
 
 				<View style={{

@@ -16,6 +16,7 @@ import paddingCreator from '../utils/paddingCreator';
  * 		label: String,
  * 		type: 'primary' | 'secondary',
  * 		width: 'fill' | 'hug',
+ * 		(property) style?: TextStyle,
  * 		onPress: Promise<Void>
  * }>}
  */
@@ -40,7 +41,9 @@ const Button = (props) => {
 				width: props.width === 'fill' ? '100%' : 'auto',
 				backgroundColor: props.type === 'secondary' ? null : colors.primary,
 				borderColor: props.type === 'secondary' ? colors.text : null,
-				borderWidth: props.type === 'secondary' ? borderWidths.thin : null
+				borderWidth: props.type === 'secondary' ? borderWidths.thin : null,
+
+				...props.style
 			}}
 
 			onPress={props.onPress}

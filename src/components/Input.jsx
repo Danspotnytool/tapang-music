@@ -25,6 +25,7 @@ import marginCreator from '../utils/marginCreator';
  * @type {React.FC<{
  * 		label: String,
  * 		placeholder: String,
+ * 		(property) style?: TextStyle,
  * 		type: 'text' | 'password'
  * }>}
  */
@@ -52,7 +53,9 @@ const Input = (props) => {
 				lineHeight: fontSizes.medium,
 
 				borderBottomWidth: borderWidths.thin,
-				borderColor: colors.text
+				borderColor: colors.text,
+
+				...props.style
 			}}
 		>
 			<Heading

@@ -22,7 +22,7 @@ import paddingCreator from '../utils/paddingCreator';
 /**
  * @type {React.FC<{
  * 		children: React.Component,
- * 		style: StyleProp<TextStyle>,
+ * 		(property) style?: TextStyle,
  * 		weight: 'thin' | 'regular' | 'bold'
  * }>}
  */
@@ -39,7 +39,7 @@ const Text = (props) => {
 
 				...paddingCreator(0),
 
-				fontSize: fontSizes.medium,
+				fontSize: fontSizes.small,
 				fontWeight: props.weight ?
 					props.weight === 'thin' ? fontWeights.thin :
 						props.weight === 'regular' ? fontWeights.regular :
@@ -52,6 +52,7 @@ const Text = (props) => {
 					: null : null,
 
 				lineHeight: fontSizes.medium,
+
 				...props.style
 			}}
 		>
@@ -66,7 +67,7 @@ export { Text };
  * @type {React.FC<{
  * 		children: React.Component,
  * 		level: 1 | 2 | 3 | 4 | 5 | 6,
- * 		style: StyleProp<TextStyle>,
+ * 		(property) style?: TextStyle,
  * 		onPress: Promise<Void>
  * }>}
  */
