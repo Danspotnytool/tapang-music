@@ -16,7 +16,10 @@ const App = () => {
 					name='SignIn'
 					component={SignIn}
 					options={{
-						headerShown: false
+						headerShown: false,
+						presentation: 'modal',
+						animationTypeForReplace: 'push',
+						animation: 'slide_from_right'
 					}}
 				/>
 
@@ -24,7 +27,10 @@ const App = () => {
 					name='Home'
 					component={Home}
 					options={{
-						headerShown: false
+						headerShown: false,
+						presentation: 'modal',
+						animationTypeForReplace: 'push',
+						animation: 'slide_from_right'
 					}}
 				/>
 			</Stack.Navigator>

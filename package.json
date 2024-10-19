@@ -1,7 +1,7 @@
 {
   "name": "tapang-music",
   "version": "1.0.0",
-"main": "src/Home.jsx",
+"main": "src/App.jsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

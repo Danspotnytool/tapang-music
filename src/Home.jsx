@@ -211,4 +211,3 @@ const Home = () => {
 };
 
 export default Home;
-registerRootComponent(Home);
