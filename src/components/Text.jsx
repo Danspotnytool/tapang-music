@@ -66,7 +66,8 @@ export { Text };
  * @type {React.FC<{
  * 		children: React.Component,
  * 		level: 1 | 2 | 3 | 4 | 5 | 6,
-* 		style: StyleProp<TextStyle>
+ * 		style: StyleProp<TextStyle>,
+ * 		onPress: Promise<Void>
  * }>}
  */
 const Heading = (props) => {
@@ -99,6 +100,8 @@ const Heading = (props) => {
 									props.level === 6 ? fontSizes.h6 : fontSizes.h1,
 				...props.style
 			}}
+
+			onPress={props.onPress}
 		>
 			{props.children || ' '}
 		</DefaultText>

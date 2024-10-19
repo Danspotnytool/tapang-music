@@ -42,6 +42,7 @@ const Button = (props) => {
 				borderColor: props.type === 'secondary' ? colors.text : null,
 				borderWidth: props.type === 'secondary' ? borderWidths.thin : null
 			}}
+
 			onPress={props.onPress}
 		>
 			{props.label || props.children}

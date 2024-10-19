@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
-import { View, Dimensions, ImageBackground } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import * as React from 'react';
 
 import { Text, Heading } from './components/Text';
@@ -12,7 +12,6 @@ import {
 	padding,
 	size,
 	gap,
-	fontSizes,
 	fontWeights
 } from './utils/globals';
 import paddingCreator from './utils/paddingCreator';
@@ -21,7 +20,7 @@ import paddingCreator from './utils/paddingCreator';
 import background from './images/background.jpg';
 import Logo from './svg/Logo.svg';
 
-const SignIn = () => {
+const SignIn = (props) => {
 	return (
 		<ImageBackground
 			source={background}
@@ -89,7 +88,10 @@ const SignIn = () => {
 						type='password'
 					/>
 
-				<Button label='Sign In' type='primary' width='fill' onPress={() => { }} />
+					<Button label='Sign In' type='primary' width='fill' onPress={() => {
+						console.log('Signed In');
+						props.navigation.navigate('Home');
+					}} />
 				</View>
 
 				<View
@@ -116,4 +118,4 @@ const SignIn = () => {
 	);
 };
 
-registerRootComponent(SignIn);
+export default SignIn;
