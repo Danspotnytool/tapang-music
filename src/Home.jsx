@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { View, Dimensions, ImageBackground } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
 import * as React from 'react';
 
 import { Text, Heading } from './components/Text';
@@ -18,6 +19,10 @@ import {
 import paddingCreator from './utils/paddingCreator';
 
 // Preload images
+
+NavigationBar.setVisibilityAsync('visible');
+NavigationBar.setPositionAsync('absolute');
+NavigationBar.setBackgroundColorAsync('#ffffff00');
 
 const Home = () => {
 	return (

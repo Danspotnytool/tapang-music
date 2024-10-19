@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { View, ImageBackground } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
 import * as React from 'react';
 
 import { Text, Heading } from './components/Text';
@@ -20,7 +21,12 @@ import paddingCreator from './utils/paddingCreator';
 import background from './images/background.jpg';
 import Logo from './svg/Logo.svg';
 
+NavigationBar.setVisibilityAsync('visible');
+NavigationBar.setPositionAsync('absolute');
+NavigationBar.setBackgroundColorAsync('#ffffff00');
+
 const SignIn = (props) => {
+
 	return (
 		<ImageBackground
 			source={background}
@@ -113,7 +119,7 @@ const SignIn = (props) => {
 					>Don't have an account? <Text weight='regular'>Sign up now!</Text></Text>
 				</View>
 			</View>
-			<StatusBar translucent backgroundColor='transparent' style='auto' />
+			<StatusBar translucent backgroundColor='transparent' style='dark' />
 		</ImageBackground>
 	);
 };
