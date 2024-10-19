@@ -1,7 +1,7 @@
 {
   "name": "tapang-music",
   "version": "1.0.0",
-  "main": "expo/AppEntry.js",
+  "main": "src/Login.jsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -9,10 +9,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/poppins": "^0.2.3",
+    "@expo/metro-runtime": "~3.2.3",
     "expo": "~51.0.28",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
-    "react-native": "0.74.5"
+    "react-dom": "18.2.0",
+    "react-native": "0.74.5",
+    "react-native-svg": "15.2.0",
+    "react-native-svg-transformer": "^1.5.0",
+    "react-native-web": "~0.19.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
