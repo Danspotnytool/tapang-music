@@ -1,4 +1,4 @@
-import { View, TextInput, Image } from 'react-native';
+import { View, TextInput, Image, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import {
 	useFonts,
@@ -24,19 +24,63 @@ import marginCreator from '../utils/marginCreator';
 
 import PlaySong from '../svg/PlaySong.svg';
 
+import spotifyApi from '../utils/spotify';
+
 /**
  * @type {React.FC<{
- * 		Title: String,
- * 		Album: String,
- * 		Artist: String,
- * 		Rating: Number,
- * 		AlbumArt: String,
+ * 		QueryName?: string,
+ * 		ID?: string,
  * 		(property) style?: TextStyle
  * }>}
  */
-const SongCard = ({ Title, Album, Artist, Rating, AlbumArt, style }) => {
+const SongCard = ({
+	QueryName,
+	ID,
+	style
+}) => {
+	const [Title, setTitle] = useState('');
+	const [Album, setAlbum] = useState('');
+	const [Artist, setArtist] = useState('');
+	const [AlbumArt, setAlbumArt] = useState('');
+	const [Rating, setRating] = useState('');
+
+	const loadSongInfo = async () => {
+		if (spotifyApi.getAccessToken() === undefined)
+			await new Promise((resolve, reject) => {
+				setInterval(() => {
+					if (spotifyApi.getAccessToken() !== undefined)
+						resolve();
+				}, 10);
+			});
+
+		if (ID) {
+			spotifyApi.getTrack(ID)
+				.then(data => {
+					setTitle(data.body.name);
+					setAlbum(data.body.album.name);
+					setArtist(data.body.artists[0].name);
+					setAlbumArt(data.body.album.images[0].url);
+					setRating(data.body.popularity);
+				})
+				.catch(err => console.error(err));
+		} else if (QueryName) {
+			spotifyApi.searchTracks(QueryName)
+				.then(data => {
+					setTitle(data.body.tracks.items[0].name);
+					setAlbum(data.body.tracks.items[0].album.name);
+					setArtist(data.body.tracks.items[0].artists[0].name);
+					setAlbumArt(data.body.tracks.items[0].album.images[0].url);
+					setRating(data.body.tracks.items[0].popularity);
+				})
+				.catch(err => console.error(err));
+		};
+	};
+
+	useEffect(() => {
+		loadSongInfo();
+	}, []);
 	return (
-		<View
+		<Pressable
 			style={{
 				position: 'relative',
 				width: '100%',
@@ -45,7 +89,7 @@ const SongCard = ({ Title, Album, Artist, Rating, AlbumArt, style }) => {
 				flexDirection: 'row',
 				alignItems: 'center',
 				justifyContent: 'flex-start',
-				gap: gap.small,
+				gap: gap.medium,
 				backgroundColor: 'rgba(255, 255, 255, 0.0625)',
 				borderRadius: borderRadius.medium,
 				overflow: 'hidden',
@@ -74,7 +118,7 @@ const SongCard = ({ Title, Album, Artist, Rating, AlbumArt, style }) => {
 			</View>
 
 			<Image
-				source={{ uri: AlbumArt }}
+				source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
 				style={{
 					width: ((rem / 3) * 2) * 8,
 					height: ((rem / 3) * 2) * 8,
@@ -120,10 +164,10 @@ const SongCard = ({ Title, Album, Artist, Rating, AlbumArt, style }) => {
 						whiteSpace: 'nowrap'
 					}}
 				>
-					{Rating} Listens
+					{Rating} on Popularity
 				</Text>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

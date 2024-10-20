@@ -24,15 +24,51 @@ import marginCreator from '../utils/marginCreator';
 
 import PlayAlbum from '../svg/PlayAlbum.svg';
 
+import spotifyApi from '../utils/spotify';
+
 /**
  * @type {React.FC<{
- * 		Title: String,
- * 		Artist: String,
- * 		AlbumArt: String,
+ * 		QueryName?: string,
+ * 		ID?: string,
  * 		(property) style?: TextStyle
  * }>}
  */
-const AlbumCard = ({ Title, Artist, AlbumArt, style }) => {
+const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
+	const [Title, setTitle] = useState('');
+	const [Artist, setArtist] = useState('');
+	const [AlbumArt, setAlbumArt] = useState('');
+
+	const loadAlbumInfo = async () => {
+		if (spotifyApi.getAccessToken() === undefined)
+			await new Promise((resolve, reject) => {
+				setInterval(() => {
+					if (spotifyApi.getAccessToken() !== undefined)
+						resolve();
+				}, 10);
+			});
+
+		if (ID) {
+			spotifyApi.getAlbum(ID)
+				.then(data => {
+					setTitle(data.body.name);
+					setArtist(data.body.artists[0].name);
+					setAlbumArt(data.body.images[0].url);
+				})
+				.catch(err => console.error(err));
+		} else if (QueryName) {
+			spotifyApi.searchAlbums(QueryName)
+				.then(data => {
+					setTitle(data.body.albums.items[0].name);
+					setArtist(data.body.albums.items[0].artists[0].name);
+					setAlbumArt(data.body.albums.items[0].images[0].url);
+				})
+				.catch(err => console.error(err));
+		};
+	};
+
+	useEffect(() => {
+		loadAlbumInfo();
+	}, []);
 	return (
 		<View
 			style={{
@@ -68,7 +104,7 @@ const AlbumCard = ({ Title, Artist, AlbumArt, style }) => {
 			</View>
 
 			<Image
-				source={{ uri: AlbumArt }}
+				source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
 				style={{
 					width: (rem * 2) * 4,
 					height: (rem * 2) * 4,

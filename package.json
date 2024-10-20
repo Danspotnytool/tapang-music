@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
 	"web": "expo start --web",
-	"adb": "adb kill-server && adb start-server && expo start --android --localhost"
+	"adb": "adb kill-server && adb start-server && expo start --android --offline"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
@@ -27,7 +27,8 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-svg-transformer": "^1.5.0",
-	"react-native-web": "~0.19.10"
+	"react-native-web": "~0.19.10",
+	"spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

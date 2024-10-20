@@ -1,12 +1,10 @@
 import { registerRootComponent } from 'expo';
-import { View, ScrollView, Dimensions, StatusBar, SafeAreaView } from 'react-native';
+import { View, ScrollView, Dimensions, StatusBar, Image, SafeAreaView } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import React, { useState, useEffect } from 'react';
 
-import { Text, Heading } from '../components/Text';
-import AlbumCard from '../components/AlbumCard';
-import ArtistCard from '../components/ArtistCard';
-import SongCard from '../components/SongCard';
+import { Text, Heading } from '../../components/Text';
+import SongCard from '../../components/SongCard';
 
 import {
 	colors,
@@ -14,42 +12,61 @@ import {
 	rem,
 	gap,
 	fontSizes,
-	fontWeights
-} from '../utils/globals';
-import paddingCreator from '../utils/paddingCreator';
-import marginCreator from '../utils/marginCreator';
+	fontWeights,
+	borderRadius
+} from '../../utils/globals';
+import paddingCreator from '../../utils/paddingCreator';
+import marginCreator from '../../utils/marginCreator';
 
 // Preload images
-import Icon from '../svg/Icon.svg';
-import User from '../svg/User.svg';
-import AboutIcon from '../svg/AboutIcon.svg';
-import HomeIcon from '../svg/HomeIcon-Active.svg';
-import LogoutIcon from '../svg/LogoutIcon.svg';
-import SearchIcon from '../svg/SearchIcon.svg';
+import Icon from '../../svg/Icon.svg';
+import User from '../../svg/User.svg';
+import AboutIcon from '../../svg/AboutIcon.svg';
+import HomeIcon from '../../svg/HomeIcon.svg';
+import LogoutIcon from '../../svg/LogoutIcon.svg';
+import SearchIcon from '../../svg/SearchIcon.svg';
 
-import spotifyApi from '../utils/spotify';
+import spotifyApi from '../../utils/spotify';
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height; // device height
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 24;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const NAVIGATION_BAR_HEIGHT = SCREEN_HEIGHT - WINDOW_HEIGHT - STATUS_BAR_HEIGHT;
 
-const Home = (props) => {
+/**
+ * @type {React.FC<{
+ * 		navigation: any,
+ * 		route: {
+ * 			params: {
+ * 				ID?: string,
+ * 				QueryName?: string
+ * 			}
+ * 		}
+ * 		ID?: string,
+ * 		QueryName?: string
+ * }>}
+ */
+const Artist = ({
+	navigation,
+	route: {
+		params: {
+			QueryName = '',
+			ID = '6HvZYsbFfjnjFrWF950C9d'
+		}
+	}
+}) => {
 	NavigationBar.setVisibilityAsync('visible');
 	NavigationBar.setPositionAsync('absolute');
 	NavigationBar.setBackgroundColorAsync(colors.secondary);
 
-	const StartinArtistsID = [
-		'06HL4z0CvFAxyc27GXpf02',
-		'6HvZYsbFfjnjFrWF950C9d',
-		'0ZXi1NG0Wwlaj70Qn25mAr',
-		'6vWDO969PvNqNYHIOW5v0m',
-		'7tNO3vJC9zlHy2IJOx34ga'
-	];
+	const [ProfilePicture, setProfilePicture] = useState('');
+	const [Name, setName] = useState('');
+	const [Birthday, setBirthday] = useState('');
+	const [Followers, setFollowers] = useState('');
+	const [Genres, setGenres] = useState([]);
+	const [TopSongs, setTopSongs] = useState([]);
 
-	const [RecommendedAlbumsID, setRecommendedAlbumsID] = useState([]);
-
-	const getRecommendedAlbums = async () => {
+	const loadArtistInfo = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
 			await new Promise((resolve, reject) => {
 				setInterval(() => {
@@ -58,22 +75,31 @@ const Home = (props) => {
 				}, 10);
 			});
 
-		spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
-			limit: 5
-		})
-			.then(data => {
-				const albums = data.body.tracks.map(track => track.album.id);
-				setRecommendedAlbumsID(albums);
-			}).catch(err => console.error(err));
+		if (ID)
+			spotifyApi.getArtist(ID)
+				.then(data => {
+					setProfilePicture(data.body.images[0].url);
+					setName(data.body.name);
+					setBirthday(data.body.birthdate);
+					setFollowers(data.body.followers.total);
+					setGenres(data.body.genres);
+				}).catch(err => console.error(err));
+		else if (QueryName)
+			spotifyApi.searchArtists(QueryName)
+				.then(data => {
+					setProfilePicture(data.body.artists.items[0].images[0].url);
+					setName(data.body.artists.items[0].name);
+					setBirthday(data.body.artists.items[0].birthdate);
+					setFollowers(data.body.artists.items[0].followers.total);
+					setGenres(data.body.artists.items[0].genres);
+				}).catch(err => console.error(err));
 	};
+
 	useEffect(() => {
-		getRecommendedAlbums();
+		loadArtistInfo();
 	}, []);
 
-	const [RecommendedArtistsID, setRecommendedArtistsID] = useState([]);
-
-	const getRecommendedArtists = async () => {
+	const loadTopSongs = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
 			await new Promise((resolve, reject) => {
 				setInterval(() => {
@@ -82,41 +108,20 @@ const Home = (props) => {
 				}, 10);
 			});
 
-		spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
-			limit: 5
-		})
-			.then(data => {
-				const artists = data.body.tracks.map(track => track.artists[0].id);
-				setRecommendedArtistsID(artists);
-			}).catch(err => console.error(err));
+		if (ID)
+			spotifyApi.getArtistTopTracks(ID, 'US')
+				.then(data => {
+					setTopSongs(data.body.tracks.map(track => track.id));
+				}).catch(err => console.error(err));
+		else if (QueryName)
+			spotifyApi.searchTracks(QueryName)
+				.then(data => {
+					setTopSongs(data.body.tracks.items.map(track => track.id));
+				}).catch(err => console.error(err));
 	};
+
 	useEffect(() => {
-		getRecommendedArtists();
-	}, []);
-
-	const [RecommendedTracks, setRecommendedTracks] = useState([]);
-
-	const getRecommendedTracks = async () => {
-		if (spotifyApi.getAccessToken() === undefined)
-			await new Promise((resolve, reject) => {
-				setInterval(() => {
-					if (spotifyApi.getAccessToken() !== undefined)
-						resolve();
-				}, 10);
-			});
-
-		spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
-			limit: 5
-		})
-			.then(data => {
-				const tracks = data.body.tracks.map(track => track.id);
-				setRecommendedTracks(tracks);
-			}).catch(err => console.error(err));
-	};
-	useEffect(() => {
-		getRecommendedTracks();
+		loadTopSongs();
 	}, []);
 
 	return (
@@ -185,8 +190,6 @@ const Home = (props) => {
 								<Heading level={4}>Tapang Music</Heading>
 							</View>
 
-							
-
 							<View
 								style={{
 									display: 'flex',
@@ -209,6 +212,7 @@ const Home = (props) => {
 
 						<View
 							style={{
+								position: 'relative',
 								width: '100%',
 								display: 'flex',
 								justifyContent: 'flex-start',
@@ -216,106 +220,87 @@ const Home = (props) => {
 								gap: gap.medium
 							}}
 						>
-							<Heading
-								level={2}
-								style={{ width: '100%' }}
-							>Discover the taste.</Heading>
-
-							<ScrollView
-								horizontal={true}
+							<Image
+								source={{ uri: ProfilePicture || 'https://via.placeholder.com/300' }}
 								style={{
-									position: 'relative',
-									width: '100%',
-
-									overflow: 'visible'
+									position: 'absolute',
+									width: Dimensions.get('window').width,
+									height: (rem * 2) * 8,
+									opacity: 0.5
 								}}
-							>
-								<View
-									style={{
-										display: 'flex',
-										justifyContent: 'flex-start',
-										alignItems: 'center',
-										flexDirection: 'row',
-										gap: gap.medium
-									}}
-								>
-									{
-										RecommendedAlbumsID.map((album, index) => (
-											<AlbumCard
-												key={index}
-												ID={album}
-												navigation={props.navigation}
-											/>
-										))
-									}
-								</View>
-							</ScrollView>
-
-
-
-							<Heading
-								level={4}
-								style={{ width: '100%' }}
-							>Top artists of the month</Heading>
-
-							<ScrollView
-								horizontal={true}
-								style={{
-									position: 'relative',
-									width: '100%',
-
-									overflow: 'visible'
-								}}
-							>
-								<View
-									style={{
-										display: 'flex',
-										justifyContent: 'flex-start',
-										alignItems: 'center',
-										flexDirection: 'row',
-										gap: gap.medium
-									}}
-								>
-									{
-										RecommendedArtistsID.map((artist, index) => (
-											<ArtistCard
-												key={index}
-												ID={artist}
-												navigation={props.navigation}
-											/>
-										))
-									}
-								</View>
-							</ScrollView>
-
-
-
-							<Heading
-								level={4}
-								style={{ width: '100%' }}
-							>Listen with style</Heading>
-
+							/>
 							<View
 								style={{
 									width: '100%',
+									height: (rem * 2) * 8,
 									display: 'flex',
-									justifyContent: 'flex-start',
-									alignItems: 'center',
-									gap: gap.medium
+									justifyContent: 'center',
+									alignItems: 'flex-start',
+									gap: gap.small,
+									borderRadius: borderRadius.medium
 								}}
 							>
-								{
-									RecommendedTracks.map((track, index) => (
-										<SongCard
-											key={index}
-											ID={track}
-											style={{
-												width: '100%'
-											}}
-										/>
-									))
-								}
+								<Heading level={4}>{Name || 'Artist'}</Heading>
+								<Text>{Birthday || 'Birthday'}</Text>
+								<Text>{Followers || 2} Followers</Text>
+								<View
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										gap: gap.small
+									}}
+								>
+									{
+										Genres.map((genre, index) => {
+											return (
+												<Text
+													key={index}
+													style={{
+														backgroundColor: colors.text,
+														color: colors.secondary,
+														...paddingCreator(
+															0,
+															padding.small,
+															0,
+															padding.small
+														),
+														borderRadius: borderRadius.medium,
+														fontSize: fontSizes.small,
+														fontWeight: fontWeights.bold
+													}}
+												>
+													{genre}
+												</Text>
+											)
+										})}
+								</View>
 							</View>
+						</View>
+
+						<Heading
+							level={4}
+							style={{ width: '100%' }}
+						>Top Songs</Heading>
+
+						<View
+							style={{
+								width: '100%',
+								display: 'flex',
+								justifyContent: 'flex-start',
+								alignItems: 'center',
+								gap: gap.medium
+							}}
+						>
+							{TopSongs.map((song, index) => (
+								<SongCard
+									key={index}
+									ID={song}
+									style={{
+										width: '100%'
+									}}
+								/>
+							))}
 						</View>
 					</View>
 				</ScrollView>
@@ -369,7 +354,7 @@ const Home = (props) => {
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							console.log('home');
+							props.navigation.navigate('Home');
 						}}
 					>
 						<HomeIcon
@@ -394,5 +379,5 @@ const Home = (props) => {
 	);
 };
 
-export default Home;
-registerRootComponent(Home);
+export default Artist;
+registerRootComponent(Artist);
