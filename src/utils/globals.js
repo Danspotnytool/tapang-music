@@ -3,12 +3,13 @@ export default globals = {};
 
 
 
-export const size = 20;
+export const rem = 20;
 
 
 
 export const colors = {
 	primary: '#FF1952',
+	secondary: '#221A1C',
 	text: '#FFFFFF',
 	background: '#000000'
 };
@@ -17,27 +18,27 @@ globals.colors = colors;
 
 
 export const gap = {
-	small: size * 0.5,
-	medium: size,
-	large: size * 2
+	small: rem * 0.5,
+	medium: rem,
+	large: rem * 2
 };
 globals.gap = gap;
 
 
 
 export const padding = {
-	small: size * 0.5,
-	medium: size,
-	large: size * 2
+	small: rem * 0.5,
+	medium: rem,
+	large: rem * 2
 };
 globals.padding = padding;
 
 
 
 export const borderRadius = {
-	small: size * 0.5,
-	medium: (size / 3) * 2,
-	large: (size / 3) * 4
+	small: rem * 0.5,
+	medium: (rem / 3) * 2,
+	large: (rem / 3) * 4
 };
 globals.borderRadius = borderRadius;
 
@@ -53,16 +54,16 @@ globals.borderWidths = borderWidths;
 
 
 export const fontSizes = {
-	small: (size / 3) * 2,
-	medium: size,
-	large: size * 2,
+	small: (rem / 3) * 2,
+	medium: rem,
+	large: rem * 2,
 
-	h1: ((size / 3) * 2) * 3,
-	h2: ((size / 3) * 2) * 2.5,
-	h3: ((size / 3) * 2) * 2,
-	h4: ((size / 3) * 2) * 1.625,
-	h5: ((size / 3) * 2) * 1.25,
-	h6: ((size / 3) * 2)
+	h1: ((rem / 3) * 2) * 3,
+	h2: ((rem / 3) * 2) * 2.5,
+	h3: ((rem / 3) * 2) * 2,
+	h4: ((rem / 3) * 2) * 1.625,
+	h5: ((rem / 3) * 2) * 1.25,
+	h6: ((rem / 3) * 2)
 };
 globals.fontSizes = fontSizes;
 

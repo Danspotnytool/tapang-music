@@ -16,7 +16,7 @@ import {
 	borderRadius,
 	borderWidths,
 	fontWeights,
-	size,
+	rem,
 	gap
 } from '../utils/globals';
 import paddingCreator from '../utils/paddingCreator';
@@ -37,7 +37,7 @@ const AlbumCard = ({ Title, Artist, AlbumArt, style }) => {
 		<View
 			style={{
 				position: 'relative',
-				width: (size * 2) * 4,
+				width: (rem * 2) * 4,
 				display: 'flex',
 				alignItems: 'flex-start',
 				justifyContent: 'flex-start',
@@ -49,10 +49,10 @@ const AlbumCard = ({ Title, Artist, AlbumArt, style }) => {
 			<View
 				style={{
 					position: 'absolute',
-					width: size * 2,
-					height: (size * 2),
+					width: rem * 2,
+					height: (rem * 2),
 					right: padding.small,
-					top: ((size * 2) * 4) - (size * 2) - padding.small,
+					top: ((rem * 2) * 4) - (rem * 2) - padding.small,
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -62,16 +62,16 @@ const AlbumCard = ({ Title, Artist, AlbumArt, style }) => {
 				}}
 			>
 				<PlayAlbum
-					width={size * 2}
-					height={size * 2}
+					width={rem * 2}
+					height={rem * 2}
 				/>
 			</View>
 
 			<Image
 				source={{ uri: AlbumArt }}
 				style={{
-					width: (size * 2) * 4,
-					height: (size * 2) * 4,
+					width: (rem * 2) * 4,
+					height: (rem * 2) * 4,
 					borderRadius: borderRadius.medium
 				}}
 			/>

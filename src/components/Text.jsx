@@ -23,7 +23,8 @@ import paddingCreator from '../utils/paddingCreator';
  * @type {React.FC<{
  * 		children: React.Component,
  * 		(property) style?: TextStyle,
- * 		weight: 'thin' | 'regular' | 'bold'
+ * 		weight: 'thin' | 'regular' | 'bold',
+ * 		onPress: Promise<Void>
  * }>}
  */
 const Text = (props) => {
@@ -55,6 +56,8 @@ const Text = (props) => {
 
 				...props.style
 			}}
+
+			onPress={props.onPress}
 		>
 			{props.children || ' '}
 		</DefaultText>

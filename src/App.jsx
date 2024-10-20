@@ -3,8 +3,9 @@ import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SignIn from './SignIn';
-import Home from './Home';
+import SignIn from './pages/SignIn';
+import Home from './pages/Home';
+import AboutUs from './pages/AboutUs';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,17 @@ const App = () => {
 						presentation: 'modal',
 						animationTypeForReplace: 'push',
 						animation: 'slide_from_right'
+					}}
+				/>
+
+				<Stack.Screen
+					name='AboutUs'
+					component={AboutUs}
+					options={{
+						headerShown: false,
+						presentation: 'modal',
+						animationTypeForReplace: 'push',
+						animation: 'slide_from_left'
 					}}
 				/>
 			</Stack.Navigator>

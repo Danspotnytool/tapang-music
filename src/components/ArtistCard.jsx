@@ -16,7 +16,7 @@ import {
 	borderRadius,
 	borderWidths,
 	fontWeights,
-	size,
+	rem,
 	gap
 } from '../utils/globals';
 import paddingCreator from '../utils/paddingCreator';
@@ -36,7 +36,7 @@ const ArtistCard = ({ Name, ProfilePicture, style }) => {
 		<View
 			style={{
 				position: 'relative',
-				width: (size * 2) * 2,
+				width: (rem * 2) * 2,
 				display: 'flex',
 				alignItems: 'flex-start',
 				justifyContent: 'flex-start',
@@ -48,9 +48,9 @@ const ArtistCard = ({ Name, ProfilePicture, style }) => {
 			<Image
 				source={{ uri: ProfilePicture }}
 				style={{
-					width: (size * 2) * 2,
-					height: (size * 2) * 2,
-					borderRadius: (size * 2) * 2
+					width: (rem * 2) * 2,
+					height: (rem * 2) * 2,
+					borderRadius: (rem * 2) * 2
 				}}
 			/>
 			<Text

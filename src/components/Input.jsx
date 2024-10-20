@@ -16,7 +16,7 @@ import {
 	borderRadius,
 	borderWidths,
 	fontWeights,
-	size
+	rem
 } from '../utils/globals';
 import paddingCreator from '../utils/paddingCreator';
 import marginCreator from '../utils/marginCreator';
@@ -41,7 +41,7 @@ const Input = (props) => {
 				display: 'flex',
 				justifyContent: 'flex-start',
 				alignItems: 'flex-start',
-				height: (size * 2) + ((size / 3) * 2),
+				height: (rem * 2) + ((rem / 3) * 2),
 
 				width: '100%',
 
@@ -69,7 +69,7 @@ const Input = (props) => {
 
 			<TextInput
 				style={{
-					height: size * 2,
+					height: rem * 2,
 					width: '100%',
 
 					...marginCreator(
