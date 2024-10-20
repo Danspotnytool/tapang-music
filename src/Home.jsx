@@ -41,11 +41,20 @@ const Home = () => {
 				flex: 1,
 				backgroundColor: colors.background,
 
-				...paddingCreator(padding.large),
-
-				overflowX: 'hidden'
+				overflowX: 'visible'
 			}}
 		>
+			<View
+				style={{
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'flex-start',
+					alignItems: 'center',
+					gap: gap.medium,
+
+					...paddingCreator(padding.large)
+				}}
+			>
 			<View
 				style={{
 					width: '100%',
@@ -213,6 +222,7 @@ const Home = () => {
 						AlbumArt='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCMkvF_IOwARisFshk4IR3R0DK4z0vAyBkKg&s'
 					/>
 				</View>
+			</View>
 			</View>
 		</ScrollView>
 	);
