@@ -29,18 +29,19 @@ NavigationBar.setBackgroundColorAsync('#ffffff00');
 
 const Home = () => {
 	return (
-		<View
+		<ScrollView
+			contentContainerStyle={{
+				display: 'flex',
+				justifyContent: 'flex-start',
+				alignItems: 'center',
+				gap: gap.large,
+			}}
 			style={{
 				width: '100%',
 				flex: 1,
 				backgroundColor: colors.background,
 
 				...paddingCreator(padding.large),
-
-				display: 'flex',
-				justifyContent: 'flex-start',
-				alignItems: 'center',
-				gap: gap.large,
 
 				overflowX: 'hidden'
 			}}
@@ -204,9 +205,16 @@ const Home = () => {
 						Rating='4.5m'
 						AlbumArt='https://i.scdn.co/image/ab67616d0000b2730b04da4f224b51ff86e0a481'
 					/>
+					<SongCard
+						Title='Meow moew moew meow'
+						Artist='Furry Meowlish'
+						Album='Meow'
+						Rating='5m'
+						AlbumArt='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCMkvF_IOwARisFshk4IR3R0DK4z0vAyBkKg&s'
+					/>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 
