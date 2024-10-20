@@ -133,3 +133,4 @@ const SignIn = (props) => {
 };
 
 export default SignIn;
+registerRootComponent(SignIn);

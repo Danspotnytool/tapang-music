@@ -25,6 +25,7 @@ import User from '../svg/User.svg';
 import AboutIcon from '../svg/AboutIcon.svg';
 import HomeIcon from '../svg/HomeIcon-Active.svg';
 import LogoutIcon from '../svg/LogoutIcon.svg';
+import SearchIcon from '../svg/SearchIcon.svg';
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height; // device height
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 24;
@@ -102,10 +103,26 @@ const Home = (props) => {
 								<Heading level={4}>Tapang Music</Heading>
 							</View>
 
-							<User
-								width={rem * 2}
-								height={rem * 2}
-							/>
+							
+
+							<View
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									flexDirection: 'row',
+									gap: gap.small
+								}}
+							>
+								<SearchIcon
+									width={rem * 2}
+									height={rem * 2}
+								/>
+								<User
+									width={rem * 2}
+									height={rem * 2}
+								/>
+							</View>
 						</View>
 
 						<View
@@ -309,7 +326,7 @@ const Home = (props) => {
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							console.log('logout');
+							props.navigation.navigate('SignIn');
 						}}
 					>
 						<LogoutIcon
@@ -323,3 +340,4 @@ const Home = (props) => {
 };
 
 export default Home;
+registerRootComponent(Home);

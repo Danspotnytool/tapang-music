@@ -18,7 +18,7 @@ globals.colors = colors;
 
 
 export const gap = {
-	small: rem * 0.5,
+	small: rem / 3,
 	medium: rem,
 	large: rem * 2
 };

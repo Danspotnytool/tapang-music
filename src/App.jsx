@@ -20,7 +20,7 @@ const App = () => {
 						headerShown: false,
 						presentation: 'modal',
 						animationTypeForReplace: 'push',
-						animation: 'slide_from_right'
+						animation: 'slide_from_left'
 					}}
 				/>
 
