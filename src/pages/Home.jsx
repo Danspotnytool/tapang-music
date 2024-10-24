@@ -42,12 +42,11 @@ const Home = (props) => {
 
 	const route = useRoute();
 
-	const StartinArtistsID = [
+	const StartingArtistsID = [
 		'06HL4z0CvFAxyc27GXpf02',
 		'6HvZYsbFfjnjFrWF950C9d',
 		'0ZXi1NG0Wwlaj70Qn25mAr',
-		'6vWDO969PvNqNYHIOW5v0m',
-		'7tNO3vJC9zlHy2IJOx34ga'
+		'6vWDO969PvNqNYHIOW5v0m'
 	];
 
 	/**
@@ -100,7 +99,7 @@ const Home = (props) => {
 			});
 
 		const recommendations = await spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
+			seed_artists: StartingArtistsID,
 			limit: 5
 		});
 
