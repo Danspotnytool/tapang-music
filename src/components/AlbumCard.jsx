@@ -28,15 +28,29 @@ import spotifyApi from '../utils/spotify';
 
 /**
  * @type {React.FC<{
- * 		QueryName?: string,
- * 		ID?: string,
- * 		(property) style?: TextStyle
+ * 		navigation: {},
+ * 
+ * 		Title: String,
+ * 		Artist: String,
+ * 		AlbumArt: String,
+ * 
+ * 		QueryName?: String,
+ * 		ID?: String,
+ * 		(property) Style?: TextStyle
  * }>}
  */
-const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
-	const [Title, setTitle] = useState('');
-	const [Artist, setArtist] = useState('');
-	const [AlbumArt, setAlbumArt] = useState('');
+const AlbumCard = ({
+	Title,
+	Artist,
+	AlbumArt,
+
+	QueryName,
+	ID,
+	style
+}) => {
+	const [fetch_Title, setTitle] = useState('');
+	const [fetch_Artist, setArtist] = useState('');
+	const [fetch_AlbumArt, setAlbumArt] = useState('');
 
 	const loadAlbumInfo = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
@@ -67,6 +81,7 @@ const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
 	};
 
 	useEffect(() => {
+		if (Title || Artist || AlbumArt) return;
 		loadAlbumInfo();
 	}, []);
 	return (
@@ -104,7 +119,7 @@ const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
 			</View>
 
 			<Image
-				source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
+				source={{ uri: fetch_AlbumArt || AlbumArt || 'https://via.placeholder.com/300' }}
 				style={{
 					width: (rem * 2) * 4,
 					height: (rem * 2) * 4,
@@ -128,9 +143,7 @@ const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
 					}}
 				>
 					{
-						Title.length > 20
-							? `${Title.slice(0, 15)}...`
-							: Title
+						fetch_Title || Title || 'Unknown Album'
 					}
 				</Heading>
 				<Text
@@ -140,9 +153,7 @@ const AlbumCard = ({ QueryName, ID='4iyJ8i3eKbez8JXDbsHIdZ', style }) => {
 					}}
 				>
 					{
-						Artist.length > 25
-							? `${Artist.slice(0, 25)}...`
-							: Artist
+						fetch_Artist || Artist || 'Unknown Artist'
 					}
 				</Text>
 			</View>

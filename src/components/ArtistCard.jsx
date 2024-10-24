@@ -29,14 +29,30 @@ import spotifyApi from '../utils/spotify';
 /**
  * @type {React.FC<{
  * 		navigation: any,
- * 		ID?: string,
- * 		QueryName?: string,
+ * 		ID?: String,
+ * 		Name: String,
+ * 		ProfilePicture: String,
+ * 		Followers?: Number,
+ * 		Genres?: String[],
+ * 		QueryName?: String,
  * 		(property) style?: TextStyle
  * }>}
  */
-const ArtistCard = ({ navigation, ID, QueryName, style }) => {
-	const [Name, setName] = useState('');
-	const [ProfilePicture, setProfilePicture] = useState('');
+const ArtistCard = ({
+	navigation,
+
+	ID,
+	Name,
+	ProfilePicture,
+
+	Followers,
+	Genres,
+
+	QueryName,
+	style
+}) => {
+	const [fetch_Name, setName] = useState('');
+	const [fetch_ProfilePicture, setProfilePicture] = useState('');
 
 	const loadArtistInfo = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
@@ -64,6 +80,7 @@ const ArtistCard = ({ navigation, ID, QueryName, style }) => {
 		};
 	};
 	useEffect(() => {
+		if (ID || QueryName) return;
 		loadArtistInfo();
 	}, []);
 
@@ -82,8 +99,13 @@ const ArtistCard = ({ navigation, ID, QueryName, style }) => {
 
 			onPress={() => {
 				navigation.navigate('Artist', {
-					ID: ID,
-					QueryName: QueryName
+					Name: Name || fetch_Name,
+					ProfilePicture: ProfilePicture || fetch_ProfilePicture,
+					
+					Followers,
+					Genres,
+
+					ID
 				});
 			}}
 		>

@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { View, ScrollView, Dimensions, StatusBar, SafeAreaView } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
+import { useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 
 import { Text, Heading } from '../components/Text';
@@ -39,6 +40,8 @@ const Home = (props) => {
 	NavigationBar.setPositionAsync('absolute');
 	NavigationBar.setBackgroundColorAsync(colors.secondary);
 
+	const route = useRoute();
+
 	const StartinArtistsID = [
 		'06HL4z0CvFAxyc27GXpf02',
 		'6HvZYsbFfjnjFrWF950C9d',
@@ -47,57 +50,47 @@ const Home = (props) => {
 		'7tNO3vJC9zlHy2IJOx34ga'
 	];
 
-	const [RecommendedAlbumsID, setRecommendedAlbumsID] = useState([]);
+	/**
+	 * @typedef {{
+	 * 		ID: String,
+	 * 		Title: String,
+	 * 		Artist: String,
+	 * 		AlbumArt: String,
+	 * 		navigation: any
+	 * }} Album
+	 */
 
-	const getRecommendedAlbums = async () => {
-		if (spotifyApi.getAccessToken() === undefined)
-			await new Promise((resolve, reject) => {
-				setInterval(() => {
-					if (spotifyApi.getAccessToken() !== undefined)
-						resolve();
-				}, 10);
-			});
+	/**
+	 * @typedef {{
+	 * 		ID: String,
+	 * 		Name: String,
+	 * 		AlbumArt: String,
+	 * 		Album: String,
+	 * 		Arist: String,
+	 * 		Popularity: Number,
+	 * 		navigation: any
+	 * }} Track
+	 */
 
-		spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
-			limit: 5
-		})
-			.then(data => {
-				const albums = data.body.tracks.map(track => track.album.id);
-				setRecommendedAlbumsID(albums);
-			}).catch(err => console.error(err));
-	};
-	useEffect(() => {
-		getRecommendedAlbums();
-	}, []);
+	/**
+	 * @typedef {{
+	 * 		ID: String,
+	 * 		Name: String,
+	 * 		ProfilePicture: String,
+	 * 		navigation: any,
+	 * 		Followers: Number,
+	 * 		Genres: String[]
+	 * }} Artist
+	 */
 
-	const [RecommendedArtistsID, setRecommendedArtistsID] = useState([]);
-
-	const getRecommendedArtists = async () => {
-		if (spotifyApi.getAccessToken() === undefined)
-			await new Promise((resolve, reject) => {
-				setInterval(() => {
-					if (spotifyApi.getAccessToken() !== undefined)
-						resolve();
-				}, 10);
-			});
-
-		spotifyApi.getRecommendations({
-			seed_artists: StartinArtistsID,
-			limit: 5
-		})
-			.then(data => {
-				const artists = data.body.tracks.map(track => track.artists[0].id);
-				setRecommendedArtistsID(artists);
-			}).catch(err => console.error(err));
-	};
-	useEffect(() => {
-		getRecommendedArtists();
-	}, []);
-
+	/** @type {[Album[], Function]} */
+	const [Albums, setAlbums] = useState([]);
+	/** @type {[Artist[], Function]} */
+	const [Artists, setArtists] = useState([]);
+	/** @type {[Track[], Function]} */
 	const [RecommendedTracks, setRecommendedTracks] = useState([]);
 
-	const getRecommendedTracks = async () => {
+	const getRecommendations = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
 			await new Promise((resolve, reject) => {
 				setInterval(() => {
@@ -106,17 +99,67 @@ const Home = (props) => {
 				}, 10);
 			});
 
-		spotifyApi.getRecommendations({
+		const recommendations = await spotifyApi.getRecommendations({
 			seed_artists: StartinArtistsID,
 			limit: 5
-		})
-			.then(data => {
-				const tracks = data.body.tracks.map(track => track.id);
-				setRecommendedTracks(tracks);
-			}).catch(err => console.error(err));
+		});
+
+		const albums = recommendations.body.tracks.map(track => {
+			return {
+				ID: track.album.id,
+				Title: track.album.name,
+				Artist: track.artists.map(artist => artist.name).join(', '),
+				AlbumArt: track.album.images[0].url
+			};
+		});
+		console.log('albums', albums);
+		setAlbums(albums);
+
+		(async () => {
+			const artists = [];
+			for (const tracks of recommendations.body.tracks) {
+				for (const artist of tracks.artists) {
+					if (artists.find(a => a.ID === artist.id)) continue;
+					const theArtist = {
+						ID: artist.id,
+						Name: artist.name,
+						ProfilePicture: null,
+						Followers: null,
+						Genres: null
+					};
+					const fromAPI = await spotifyApi.getArtist(artist.id);
+					console.log('fromAPI', fromAPI);
+					theArtist.ProfilePicture = fromAPI.body.images ? fromAPI.body.images[0]?.url : null;
+					theArtist.Followers = fromAPI.body.followers.total;
+					theArtist.Genres = fromAPI.body.genres;
+					artists.push(theArtist);
+				};
+			};
+			console.log('artists', artists);
+			setArtists(artists);
+		})();
+
+		(() => {
+			console.log(recommendations.body.tracks);
+
+			const tracks = recommendations.body.tracks.map(track => {
+				return {
+					ID: track.id,
+					Name: track.name,
+					AlbumArt: track.album.images[0].url,
+
+					Album: track.album.name,
+					Artist: track.artists ? track.artists.map(artist => artist.name).join(', ') : null,
+					Popularity: track.popularity
+				};
+			});
+			console.log('tracks', tracks);
+			setRecommendedTracks(tracks);
+		})();
 	};
 	useEffect(() => {
-		getRecommendedTracks();
+		if (Albums.length > 0) return;
+		getRecommendations();
 	}, []);
 
 	return (
@@ -196,10 +239,6 @@ const Home = (props) => {
 									gap: gap.small
 								}}
 							>
-								<SearchIcon
-									width={rem * 2}
-									height={rem * 2}
-								/>
 								<User
 									width={rem * 2}
 									height={rem * 2}
@@ -234,16 +273,19 @@ const Home = (props) => {
 									style={{
 										display: 'flex',
 										justifyContent: 'flex-start',
-										alignItems: 'center',
+										alignItems: 'flex-start',
 										flexDirection: 'row',
 										gap: gap.medium
 									}}
 								>
 									{
-										RecommendedAlbumsID.map((album, index) => (
+										Albums.map(album => (
 											<AlbumCard
-												key={index}
-												ID={album}
+												key={album.ID}
+												ID={album.ID}
+												Title={album.Title}
+												Artist={album.Artist}
+												AlbumArt={album.AlbumArt}
 												navigation={props.navigation}
 											/>
 										))
@@ -271,16 +313,20 @@ const Home = (props) => {
 									style={{
 										display: 'flex',
 										justifyContent: 'flex-start',
-										alignItems: 'center',
+										alignItems: 'flex-start',
 										flexDirection: 'row',
 										gap: gap.medium
 									}}
 								>
 									{
-										RecommendedArtistsID.map((artist, index) => (
+										Artists.map(artist => (
 											<ArtistCard
-												key={index}
-												ID={artist}
+												key={artist.ID}
+												ID={artist.ID}
+												Name={artist.Name}
+												ProfilePicture={artist.ProfilePicture}
+												Followers={artist.Followers}
+												Genres={artist.Genres}
 												navigation={props.navigation}
 											/>
 										))
@@ -300,18 +346,21 @@ const Home = (props) => {
 									width: '100%',
 									display: 'flex',
 									justifyContent: 'flex-start',
-									alignItems: 'center',
+									alignItems: 'flex-start',
 									gap: gap.medium
 								}}
 							>
 								{
-									RecommendedTracks.map((track, index) => (
+									RecommendedTracks.map(track => (
 										<SongCard
-											key={index}
-											ID={track}
-											style={{
-												width: '100%'
-											}}
+											key={track.ID}
+											ID={track.ID}
+											Name={track.Name}
+											AlbumArt={track.AlbumArt}
+											Album={track.Album}
+											Artist={track.Artist}
+											Popularity={track.Popularity}
+											navigation={props.navigation}
 										/>
 									))
 								}

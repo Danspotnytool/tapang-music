@@ -30,19 +30,31 @@ import spotifyApi from '../utils/spotify';
  * @type {React.FC<{
  * 		QueryName?: string,
  * 		ID?: string,
+ * 		Name: string,
+ * 		Artist: string,
+ * 		Album: string,
+ * 		AlbumArt: string,
+ * 		Popularity: number,
  * 		(property) style?: TextStyle
  * }>}
  */
 const SongCard = ({
 	QueryName,
 	ID,
+
+	Name,
+	Artist,
+	Album,
+	AlbumArt,
+	Popularity,
+
 	style
 }) => {
-	const [Title, setTitle] = useState('');
-	const [Album, setAlbum] = useState('');
-	const [Artist, setArtist] = useState('');
-	const [AlbumArt, setAlbumArt] = useState('');
-	const [Rating, setRating] = useState('');
+	const [fetch_Name, setName] = useState('');
+	const [fetch_Artist, setArtist] = useState('');
+	const [fetch_Album, setAlbum] = useState('');
+	const [fetch_Image, setImage] = useState('');
+	const [fetch_Rating, setRating] = useState(0);
 
 	const loadSongInfo = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
@@ -53,32 +65,27 @@ const SongCard = ({
 				}, 10);
 			});
 
-		if (ID) {
-			spotifyApi.getTrack(ID)
-				.then(data => {
-					setTitle(data.body.name);
-					setAlbum(data.body.album.name);
-					setArtist(data.body.artists[0].name);
-					setAlbumArt(data.body.album.images[0].url);
-					setRating(data.body.popularity);
-				})
-				.catch(err => console.error(err));
-		} else if (QueryName) {
-			spotifyApi.searchTracks(QueryName)
-				.then(data => {
-					setTitle(data.body.tracks.items[0].name);
-					setAlbum(data.body.tracks.items[0].album.name);
-					setArtist(data.body.tracks.items[0].artists[0].name);
-					setAlbumArt(data.body.tracks.items[0].album.images[0].url);
-					setRating(data.body.tracks.items[0].popularity);
-				})
-				.catch(err => console.error(err));
-		};
+		const { data } = await spotifyApi.getSongInfo(QueryName, ID);
+
+		setName(data.Name);
+		setArtist(data.Artist);
+		setAlbum(data.Album);
+		setImage(data.AlbumArt);
+		setRating(data.Popularity);
 	};
 
 	useEffect(() => {
-		loadSongInfo();
+		if (Name === undefined || Artist === undefined || Album === undefined || AlbumArt === undefined || Popularity === undefined)
+			loadSongInfo();
+		else {
+			setName(Name);
+			setArtist(Artist);
+			setAlbum(Album);
+			setImage(AlbumArt);
+			setRating(Popularity);
+		};
 	}, []);
+
 	return (
 		<Pressable
 			style={{
@@ -94,6 +101,10 @@ const SongCard = ({
 				borderRadius: borderRadius.medium,
 				overflow: 'hidden',
 				...style
+			}}
+
+			onPress={() => {
+				console.log('Pressed');
 			}}
 		>
 			<View
@@ -118,7 +129,7 @@ const SongCard = ({
 			</View>
 
 			<Image
-				source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
+				source={{ uri: fetch_Image || AlbumArt || 'https://via.placeholder.com/300' }}
 				style={{
 					width: ((rem / 3) * 2) * 8,
 					height: ((rem / 3) * 2) * 8,
@@ -142,9 +153,7 @@ const SongCard = ({
 					}}
 				>
 					{
-						Title.length > 20
-							? `${Title.slice(0, 15)}...`
-							: Title
+						fetch_Name || Name
 					}
 				</Heading>
 
@@ -155,7 +164,7 @@ const SongCard = ({
 					}}
 				>
 					{
-						`${Album} • ${Artist}`
+						`${fetch_Artist || Artist} • ${fetch_Album || Album}`
 					}
 				</Text>
 				<Text
@@ -164,7 +173,9 @@ const SongCard = ({
 						whiteSpace: 'nowrap'
 					}}
 				>
-					{Rating} on Popularity
+					{
+						`${fetch_Rating || Popularity} on Popularity`
+					}
 				</Text>
 			</View>
 		</Pressable>

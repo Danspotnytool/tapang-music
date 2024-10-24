@@ -35,69 +35,44 @@ const NAVIGATION_BAR_HEIGHT = SCREEN_HEIGHT - WINDOW_HEIGHT - STATUS_BAR_HEIGHT;
 
 /**
  * @type {React.FC<{
- * 		navigation: any,
  * 		route: {
  * 			params: {
+ * 				QueryName?: string,
  * 				ID?: string,
- * 				QueryName?: string
+ * 
+ * 				Name,
+ *				ProfilePicture,
+ *
+ *				Followers,
+ *				Genres,
+ *				Birthday
+ *
+ * 				navigation: any
  * 			}
  * 		}
- * 		ID?: string,
- * 		QueryName?: string
  * }>}
  */
 const Artist = ({
-	navigation,
 	route: {
 		params: {
 			QueryName = '',
-			ID = '6HvZYsbFfjnjFrWF950C9d'
+
+			ID = '6HvZYsbFfjnjFrWF950C9d',
+			Name,
+			ProfilePicture,
+
+			Followers,
+			Genres,
+
+			navigation
 		}
 	}
 }) => {
 	NavigationBar.setVisibilityAsync('visible');
 	NavigationBar.setPositionAsync('absolute');
 	NavigationBar.setBackgroundColorAsync(colors.secondary);
-
-	const [ProfilePicture, setProfilePicture] = useState('');
-	const [Name, setName] = useState('');
-	const [Birthday, setBirthday] = useState('');
-	const [Followers, setFollowers] = useState('');
-	const [Genres, setGenres] = useState([]);
+	
 	const [TopSongs, setTopSongs] = useState([]);
-
-	const loadArtistInfo = async () => {
-		if (spotifyApi.getAccessToken() === undefined)
-			await new Promise((resolve, reject) => {
-				setInterval(() => {
-					if (spotifyApi.getAccessToken() !== undefined)
-						resolve();
-				}, 10);
-			});
-
-		if (ID)
-			spotifyApi.getArtist(ID)
-				.then(data => {
-					setProfilePicture(data.body.images[0].url);
-					setName(data.body.name);
-					setBirthday(data.body.birthdate);
-					setFollowers(data.body.followers.total);
-					setGenres(data.body.genres);
-				}).catch(err => console.error(err));
-		else if (QueryName)
-			spotifyApi.searchArtists(QueryName)
-				.then(data => {
-					setProfilePicture(data.body.artists.items[0].images[0].url);
-					setName(data.body.artists.items[0].name);
-					setBirthday(data.body.artists.items[0].birthdate);
-					setFollowers(data.body.artists.items[0].followers.total);
-					setGenres(data.body.artists.items[0].genres);
-				}).catch(err => console.error(err));
-	};
-
-	useEffect(() => {
-		loadArtistInfo();
-	}, []);
 
 	const loadTopSongs = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
@@ -108,16 +83,18 @@ const Artist = ({
 				}, 10);
 			});
 
-		if (ID)
-			spotifyApi.getArtistTopTracks(ID, 'US')
-				.then(data => {
-					setTopSongs(data.body.tracks.map(track => track.id));
-				}).catch(err => console.error(err));
-		else if (QueryName)
-			spotifyApi.searchTracks(QueryName)
-				.then(data => {
-					setTopSongs(data.body.tracks.items.map(track => track.id));
-				}).catch(err => console.error(err));
+		const topSongs = await spotifyApi.getArtistTopTracks(ID, 'US').then(data => data.body.tracks);
+		const tracks = topSongs.map(track => (
+			{
+				ID: track.id,
+				Name: track.name,
+				Artist: track.artists.map(artist => artist.name).join(', '),
+				Album: track.album.name,
+				AlbumArt: track.album.images[0].url,
+				Popularity: track.popularity
+			}
+		));
+		setTopSongs(tracks);
 	};
 
 	useEffect(() => {
@@ -231,7 +208,7 @@ const Artist = ({
 							/>
 							<View
 								style={{
-									width: '100%',
+									width: '100%',	
 									height: (rem * 2) * 8,
 									display: 'flex',
 									justifyContent: 'center',
@@ -241,7 +218,6 @@ const Artist = ({
 								}}
 							>
 								<Heading level={4}>{Name || 'Artist'}</Heading>
-								<Text>{Birthday || 'Birthday'}</Text>
 								<Text>{Followers || 2} Followers</Text>
 								<View
 									style={{
@@ -292,15 +268,19 @@ const Artist = ({
 								gap: gap.medium
 							}}
 						>
-							{TopSongs.map((song, index) => (
-								<SongCard
-									key={index}
-									ID={song}
-									style={{
-										width: '100%'
-									}}
-								/>
-							))}
+							{
+								TopSongs.map((song, index) => {
+									return (
+										<SongCard
+											key={index}
+											{...song}
+											style={{
+												width: '100%'
+											}}
+										/>
+									);
+								})
+							}
 						</View>
 					</View>
 				</ScrollView>
