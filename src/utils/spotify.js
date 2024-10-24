@@ -2,8 +2,8 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import { useState, useEffect } from 'react';
 
 const spotifyCredentials = {
-	clientId: '22bc7f6314874dab99cb2ef5f5c682fb',
-	clientSecret: 'b57b0ef9cab14cb483134bd8fa6c7524',
+	clientId: '',
+	clientSecret: '',
 	redirectUri: '127.0.0.1:8081'
 };
 const spotifyApi = new SpotifyWebApi(spotifyCredentials);
@@ -15,7 +15,7 @@ const getAccessToken = async () => {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
-			Authorization: 'Basic ' + btoa(spotifyCredentials.clientId + ':' + spotifyCredentials.clientSecret)
+			Authorization: `Basic ${btoa(`${spotifyCredentials.clientId}:${spotifyCredentials.clientSecret}`)}`
 		},
 		body: 'grant_type=client_credentials'
 	});
