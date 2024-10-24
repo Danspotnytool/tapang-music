@@ -48,7 +48,9 @@ const SongCard = ({
 	AlbumArt,
 	Popularity,
 
-	style
+	style,
+
+	navigation
 }) => {
 	const [fetch_Name, setName] = useState('');
 	const [fetch_Artist, setArtist] = useState('');
@@ -104,7 +106,16 @@ const SongCard = ({
 			}}
 
 			onPress={() => {
-				console.log('Pressed');
+				navigation.navigate('Song', {
+					QueryName,
+					ID,
+					Name: fetch_Name,
+					Artist: fetch_Artist,
+					Album: fetch_Album,
+					AlbumArt: fetch_Image,
+					Popularity: fetch_Rating,
+					navigation
+				});
 			}}
 		>
 			<View

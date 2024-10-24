@@ -105,7 +105,10 @@ const ArtistCard = ({
 					Followers,
 					Genres,
 
-					ID
+					ID,
+					QueryName,
+
+					navigation
 				});
 			}}
 		>

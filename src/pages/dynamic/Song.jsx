@@ -37,33 +37,29 @@ const NAVIGATION_BAR_HEIGHT = SCREEN_HEIGHT - WINDOW_HEIGHT - STATUS_BAR_HEIGHT;
  * @type {React.FC<{
  * 		route: {
  * 			params: {
- * 				QueryName?: string,
+ *		 		QueryName?: string,
  * 				ID?: string,
- * 
- * 				Name,
- *				ProfilePicture,
- *
- *				Followers,
- *				Genres,
- *				Birthday
- *
+ *		 		Name: string,
+ * 				Artist: string,
+ * 				Album: string,
+ * 				AlbumArt: string,
+ * 				Popularity: number,
  * 				navigation: any
  * 			}
  * 		}
  * }>}
  */
-const Artist = ({
+
+const Song = ({
 	route: {
 		params: {
 			QueryName = '',
-
 			ID = '6HvZYsbFfjnjFrWF950C9d',
 			Name,
-			ProfilePicture,
-
-			Followers,
-			Genres,
-
+			Artist,
+			Album,
+			AlbumArt,
+			Popularity,
 			navigation
 		}
 	}
@@ -71,10 +67,14 @@ const Artist = ({
 	NavigationBar.setVisibilityAsync('visible');
 	NavigationBar.setPositionAsync('absolute');
 	NavigationBar.setBackgroundColorAsync(colors.secondary);
-	
-	const [TopSongs, setTopSongs] = useState([]);
 
-	const loadTopSongs = async () => {
+	const [fetch_Name, setName] = useState('');
+	const [fetch_Artist, setArtist] = useState('');
+	const [fetch_Album, setAlbum] = useState('');
+	const [fetch_Image, setImage] = useState('');
+	const [fetch_Rating, setRating] = useState(0);
+
+	const loadSongInfo = async () => {
 		if (spotifyApi.getAccessToken() === undefined)
 			await new Promise((resolve, reject) => {
 				setInterval(() => {
@@ -83,22 +83,46 @@ const Artist = ({
 				}, 10);
 			});
 
-		const topSongs = await spotifyApi.getArtistTopTracks(ID, 'US').then(data => data.body.tracks);
-		const tracks = topSongs.map(track => (
-			{
-				ID: track.id,
-				Name: track.name,
-				Artist: track.artists.map(artist => artist.name).join(', '),
-				Album: track.album.name,
-				AlbumArt: track.album.images[0].url,
-				Popularity: track.popularity
-			}
-		));
-		setTopSongs(tracks);
+		const { data } = await spotifyApi.getSongInfo(QueryName, ID);
+
+		setName(data.Name);
+		setArtist(data.Artist);
+		setAlbum(data.Album);
+		setImage(data.AlbumArt);
+		setRating(data.Popularity);
 	};
 
 	useEffect(() => {
-		loadTopSongs();
+		if (Name === undefined || Artist === undefined || Album === undefined || AlbumArt === undefined || Popularity === undefined)
+			loadSongInfo();
+		else {
+			setName(Name);
+			setArtist(Artist);
+			setAlbum(Album);
+			setImage(AlbumArt);
+			setRating(Popularity);
+		}
+	}, []);
+
+	const [lyrics, setLyrics] = useState('');
+
+	const loadLyrics = async () => {
+		fetch(`https://api.lyrics.ovh/v1/${Artist}/${Name}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.error)
+					setLyrics('Lyrics not found.');
+				else
+					setLyrics(data.lyrics);
+			})
+			.catch(err => {
+				console.error(err);
+				setLyrics('Lyrics not found.');
+			});
+	};
+
+	useEffect(() => {
+		loadLyrics();
 	}, []);
 
 	return (
@@ -198,18 +222,18 @@ const Artist = ({
 							}}
 						>
 							<Image
-								source={{ uri: ProfilePicture || 'https://via.placeholder.com/300' }}
+								source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,
-									height: (rem * 2) * 8,
+									height: (rem * 2) * 4,
 									opacity: 0.5
 								}}
 							/>
 							<View
 								style={{
-									width: '100%',	
-									height: (rem * 2) * 8,
+									width: '100%',
+									height: (rem * 2) * 4,
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'flex-start',
@@ -217,47 +241,24 @@ const Artist = ({
 									borderRadius: borderRadius.medium
 								}}
 							>
-								<Heading level={4}>{Name || 'Artist'}</Heading>
-								<Text>{Followers || 2} Followers</Text>
-								<View
-									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										gap: gap.small
-									}}
-								>
+								<Heading level={4}>{Name || 'Song Name'}</Heading>
+								<Text>
 									{
-										Genres.map((genre, index) => {
-											return (
-												<Text
-													key={index}
-													style={{
-														backgroundColor: colors.text,
-														color: colors.secondary,
-														...paddingCreator(
-															0,
-															padding.small,
-															0,
-															padding.small
-														),
-														borderRadius: borderRadius.medium,
-														fontSize: fontSizes.small,
-														fontWeight: fontWeights.bold
-													}}
-												>
-													{genre}
-												</Text>
-											)
-										})}
-								</View>
+										`${fetch_Artist || Artist} • ${fetch_Album || Album}`
+									}
+								</Text>
+								<Text>
+									{
+										`${fetch_Rating || Popularity} on Popularity`
+									}
+								</Text>
 							</View>
 						</View>
 
 						<Heading
 							level={4}
 							style={{ width: '100%' }}
-						>Top Songs</Heading>
+						>Lyrics</Heading>
 
 						<View
 							style={{
@@ -268,28 +269,17 @@ const Artist = ({
 								gap: gap.medium
 							}}
 						>
-							{
-								TopSongs.map((song, index) => {
-									return (
-										<SongCard
-											key={index}
-											
-											ID={song.ID}
-											Name={song.Name}
-											Artist={song.Artist}
-											Album={song.Album}
-											AlbumArt={song.AlbumArt}
-											Popularity={song.Popularity}
-
-											style={{
-												width: '100%'
-											}}
-
-											navigation={navigation}
-										/>
-									);
-								})
-							}
+							<Text
+								style={{
+									width: '100%',
+									textAlign: 'center',
+									whiteSpace: 'pre-wrap'
+								}}
+							>
+								{
+									lyrics || 'Loading lyrics...'
+								}
+							</Text>
 						</View>
 					</View>
 				</ScrollView>
@@ -331,7 +321,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('AboutUs');
+							navigation.navigate('AboutUs');
 						}}
 					>
 						<AboutIcon
@@ -343,7 +333,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('Home');
+							navigation.navigate('Home');
 						}}
 					>
 						<HomeIcon
@@ -355,7 +345,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('SignIn');
+							navigation.navigate('SignIn');
 						}}
 					>
 						<LogoutIcon
@@ -368,5 +358,5 @@ const Artist = ({
 	);
 };
 
-export default Artist;
-registerRootComponent(Artist);
+export default Song;
+registerRootComponent(Song);

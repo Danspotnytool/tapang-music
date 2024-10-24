@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 
 import Artist from './pages/dynamic/Artist';
+import Song from './pages/dynamic/Song';
 
 LogBox.ignoreLogs([
 	'Non-serializable values were found in the navigation state',
@@ -62,6 +63,17 @@ const App = () => {
 						presentation: 'modal',
 						animationTypeForReplace: 'push',
 						animation: 'slide_from_right'
+					}}
+				/>
+
+				<Stack.Screen
+					name='Song'
+					component={Song}
+					options={{
+						headerShown: false,
+						presentation: 'modal',
+						animationTypeForReplace: 'push',
+						animation: 'slide_from_left'
 					}}
 				/>
 			</Stack.Navigator>
