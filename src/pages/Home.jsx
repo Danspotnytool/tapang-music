@@ -40,13 +40,10 @@ const Home = (props) => {
 	NavigationBar.setPositionAsync('absolute');
 	NavigationBar.setBackgroundColorAsync(colors.secondary);
 
-	const route = useRoute();
-
 	const StartingArtistsID = [
-		'06HL4z0CvFAxyc27GXpf02',
-		'6HvZYsbFfjnjFrWF950C9d',
-		'0ZXi1NG0Wwlaj70Qn25mAr',
-		'6vWDO969PvNqNYHIOW5v0m'
+		'06HL4z0CvFAxyc27GXpf02', // Taylor Swift
+		'6jJ0s89eD6GaHleKKya26X', // Katy Perry
+		'66CXWjxzNUsdJxJ2JdwvnR', // Ariana Grande
 	];
 
 	/**
