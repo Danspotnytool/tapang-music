@@ -1,4 +1,4 @@
-import { View, TextInput, Image } from 'react-native';
+import { View, TextInput, Image, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import {
 	useFonts,
@@ -40,13 +40,15 @@ import spotifyApi from '../utils/spotify';
  * }>}
  */
 const AlbumCard = ({
+	navigation,
+
 	Title,
 	Artist,
 	AlbumArt,
 
 	QueryName,
 	ID,
-	style
+	style,
 }) => {
 	const [fetch_Title, setTitle] = useState('');
 	const [fetch_Artist, setArtist] = useState('');
@@ -85,7 +87,7 @@ const AlbumCard = ({
 		loadAlbumInfo();
 	}, []);
 	return (
-		<View
+		<Pressable
 			style={{
 				position: 'relative',
 				width: (rem * 2) * 4,
@@ -95,6 +97,17 @@ const AlbumCard = ({
 				gap: gap.small,
 				overflow: 'hidden',
 				...style
+			}}
+
+			onPress={() => {
+				navigation.navigate('Album', {
+					QueryName,
+					ID,
+					Title: fetch_Title || Title,
+					Artist: fetch_Artist || Artist,
+					AlbumArt: fetch_AlbumArt || AlbumArt,
+					navigation
+				});
 			}}
 		>
 			<View
@@ -157,7 +170,7 @@ const AlbumCard = ({
 					}
 				</Text>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

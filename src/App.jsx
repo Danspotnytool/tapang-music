@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 
 import Artist from './pages/dynamic/Artist';
+import Album from './pages/dynamic/Album';
 import Song from './pages/dynamic/Song';
 
 LogBox.ignoreLogs([
@@ -63,6 +64,17 @@ const App = () => {
 						presentation: 'modal',
 						animationTypeForReplace: 'push',
 						animation: 'slide_from_right'
+					}}
+				/>
+
+				<Stack.Screen
+					name='Album'
+					component={Album}
+					options={{
+						headerShown: false,
+						presentation: 'modal',
+						animationTypeForReplace: 'push',
+						animation: 'slide_from_left'
 					}}
 				/>
 

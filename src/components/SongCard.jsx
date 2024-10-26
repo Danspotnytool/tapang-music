@@ -67,13 +67,14 @@ const SongCard = ({
 				}, 10);
 			});
 
-		const { data } = await spotifyApi.getSongInfo(QueryName, ID);
-
-		setName(data.Name);
-		setArtist(data.Artist);
-		setAlbum(data.Album);
-		setImage(data.AlbumArt);
-		setRating(data.Popularity);
+		spotifyApi.getTrack(ID || QueryName)
+			.then(data => {
+				setName(data.body.name);
+				setArtist(data.body.artists.map(artist => artist.name).join(', '));
+				setAlbum(data.body.album.name);
+				setImage(data.body.album.images[0].url);
+				setRating(data.body.popularity);
+			});
 	};
 
 	useEffect(() => {
