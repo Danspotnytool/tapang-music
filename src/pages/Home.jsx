@@ -108,7 +108,6 @@ const Home = (props) => {
 				AlbumArt: track.album.images[0].url
 			};
 		});
-		console.log('albums', albums);
 		setAlbums(albums);
 
 		(async () => {
@@ -124,20 +123,18 @@ const Home = (props) => {
 						Genres: null
 					};
 					const fromAPI = await spotifyApi.getArtist(artist.id);
-					console.log('fromAPI', fromAPI);
+
 					theArtist.ProfilePicture = fromAPI.body.images ? fromAPI.body.images[0]?.url : null;
 					theArtist.Followers = fromAPI.body.followers.total;
 					theArtist.Genres = fromAPI.body.genres;
 					artists.push(theArtist);
 				};
 			};
-			console.log('artists', artists);
+
 			setArtists(artists);
 		})();
 
 		(() => {
-			console.log(recommendations.body.tracks);
-
 			const tracks = recommendations.body.tracks.map(track => {
 				return {
 					ID: track.id,
@@ -149,7 +146,7 @@ const Home = (props) => {
 					Popularity: track.popularity
 				};
 			});
-			console.log('tracks', tracks);
+
 			setRecommendedTracks(tracks);
 		})();
 	};
@@ -414,7 +411,7 @@ const Home = (props) => {
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							console.log('home');
+
 						}}
 					>
 						<HomeIcon
