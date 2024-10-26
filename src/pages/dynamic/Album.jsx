@@ -90,8 +90,6 @@ const Album = ({
 						Popularity: item.popularity
 					};
 				});
-				console.log(JSON.stringify(tracks, null, 2));
-				
 				setSongs(tracks);
 			});
 	};
