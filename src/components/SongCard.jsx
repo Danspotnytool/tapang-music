@@ -182,7 +182,8 @@ const SongCard = ({
 				<Text
 					style={{
 						flexShrink: 1,
-						whiteSpace: 'nowrap'
+						whiteSpace: 'nowrap',
+						color: colors.primary
 					}}
 				>
 					{
