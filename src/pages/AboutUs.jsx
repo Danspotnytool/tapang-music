@@ -130,7 +130,8 @@ const AboutUs = (props) => {
 								display: 'flex',
 								justifyContent: 'flex-start',
 								alignItems: 'center',
-								gap: gap.medium
+								gap: gap.medium,
+								paddingTop: padding.large
 							}}
 						>
 							<Heading
