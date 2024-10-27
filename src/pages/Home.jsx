@@ -26,7 +26,6 @@ import User from '../svg/User.svg';
 import AboutIcon from '../svg/AboutIcon.svg';
 import HomeIcon from '../svg/HomeIcon-Active.svg';
 import LogoutIcon from '../svg/LogoutIcon.svg';
-import SearchIcon from '../svg/SearchIcon.svg';
 
 import spotifyApi from '../utils/spotify';
 

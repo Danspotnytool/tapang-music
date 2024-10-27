@@ -113,7 +113,7 @@ const ArtistCard = ({
 			}}
 		>
 			<Image
-				source={{ uri: ProfilePicture || 'https://via.placeholder.com/300' }}
+				source={{ uri: ProfilePicture || require('../images/placeholder.png') }}
 				style={{
 					width: (rem * 2) * 2,
 					height: (rem * 2) * 2,

@@ -24,7 +24,6 @@ import User from '../../svg/User.svg';
 import AboutIcon from '../../svg/AboutIcon.svg';
 import HomeIcon from '../../svg/HomeIcon.svg';
 import LogoutIcon from '../../svg/LogoutIcon.svg';
-import SearchIcon from '../../svg/SearchIcon.svg';
 
 import spotifyApi from '../../utils/spotify';
 
@@ -173,10 +172,6 @@ const Album = ({
 									gap: gap.small
 								}}
 							>
-								<SearchIcon
-									width={rem * 2}
-									height={rem * 2}
-								/>
 								<User
 									width={rem * 2}
 									height={rem * 2}
@@ -195,7 +190,7 @@ const Album = ({
 							}}
 						>
 							<Image
-								source={{ uri: AlbumArt || 'https://via.placeholder.com/300' }}
+								source={{ uri: AlbumArt || require('../../images/placeholder.png') }}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,

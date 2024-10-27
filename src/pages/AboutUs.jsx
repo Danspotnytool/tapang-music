@@ -23,7 +23,6 @@ import User from '../svg/User.svg';
 import AboutIcon from '../svg/AboutIcon-Active.svg';
 import HomeIcon from '../svg/HomeIcon.svg';
 import LogoutIcon from '../svg/LogoutIcon.svg';
-import SearchIcon from '../svg/SearchIcon.svg';
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height; // device height
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 24;
@@ -110,10 +109,6 @@ const AboutUs = (props) => {
 									gap: gap.small
 								}}
 							>
-								<SearchIcon
-									width={rem * 2}
-									height={rem * 2}
-								/>
 								<User
 									width={rem * 2}
 									height={rem * 2}

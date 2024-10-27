@@ -132,7 +132,7 @@ const AlbumCard = ({
 			</View>
 
 			<Image
-				source={{ uri: fetch_AlbumArt || AlbumArt || 'https://via.placeholder.com/300' }}
+				source={{ uri: fetch_AlbumArt || AlbumArt || require('../images/placeholder.png') }}
 				style={{
 					width: (rem * 2) * 4,
 					height: (rem * 2) * 4,

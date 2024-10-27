@@ -24,7 +24,6 @@ import User from '../../svg/User.svg';
 import AboutIcon from '../../svg/AboutIcon.svg';
 import HomeIcon from '../../svg/HomeIcon.svg';
 import LogoutIcon from '../../svg/LogoutIcon.svg';
-import SearchIcon from '../../svg/SearchIcon.svg';
 
 import spotifyApi from '../../utils/spotify';
 
@@ -176,10 +175,6 @@ const Artist = ({
 									gap: gap.small
 								}}
 							>
-								<SearchIcon
-									width={rem * 2}
-									height={rem * 2}
-								/>
 								<User
 									width={rem * 2}
 									height={rem * 2}
@@ -198,7 +193,7 @@ const Artist = ({
 							}}
 						>
 							<Image
-								source={{ uri: ProfilePicture || 'https://via.placeholder.com/300' }}
+								source={{ uri: ProfilePicture || require('../../images/placeholder.png') }}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,
@@ -331,7 +326,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('AboutUs');
+							navigation.navigate('AboutUs');
 						}}
 					>
 						<AboutIcon
@@ -343,7 +338,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('Home');
+							navigation.navigate('Home');
 						}}
 					>
 						<HomeIcon
@@ -355,7 +350,7 @@ const Artist = ({
 							height: rem * 2
 						}}
 						onStartShouldSetResponder={() => {
-							props.navigation.navigate('SignIn');
+							navigation.navigate('SignIn');
 						}}
 					>
 						<LogoutIcon

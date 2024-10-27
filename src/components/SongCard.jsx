@@ -141,7 +141,7 @@ const SongCard = ({
 			</View>
 
 			<Image
-				source={{ uri: fetch_Image || AlbumArt || 'https://via.placeholder.com/300' }}
+				source={{ uri: fetch_Image || AlbumArt || require('../images/placeholder.png') }}
 				style={{
 					width: ((rem / 3) * 2) * 8,
 					height: ((rem / 3) * 2) * 8,
