@@ -193,7 +193,7 @@ const Artist = ({
 							}}
 						>
 							<Image
-								source={{ uri: ProfilePicture || require('../../images/placeholder.png') }}
+								source={ProfilePicture ? { uri: ProfilePicture } : require('../../images/placeholder.png')}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,

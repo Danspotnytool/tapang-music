@@ -190,7 +190,7 @@ const Album = ({
 							}}
 						>
 							<Image
-								source={{ uri: AlbumArt || require('../../images/placeholder.png') }}
+								source={AlbumArt ? { uri: AlbumArt } : require('../../images/placeholder.png')}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,

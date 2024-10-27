@@ -217,7 +217,7 @@ const Song = ({
 							}}
 						>
 							<Image
-								source={{ uri: AlbumArt || require('../../images/placeholder.png') }}
+								source={(fetch_Image || AlbumArt) ? { uri: fetch_Image || AlbumArt } : require('../../images/placeholder.png')}
 								style={{
 									position: 'absolute',
 									width: Dimensions.get('window').width,

@@ -113,7 +113,7 @@ const ArtistCard = ({
 			}}
 		>
 			<Image
-				source={{ uri: ProfilePicture || require('../images/placeholder.png') }}
+				source={(ProfilePicture || fetch_ProfilePicture) ? { uri: ProfilePicture || fetch_ProfilePicture } : require('../images/placeholder.png')}
 				style={{
 					width: (rem * 2) * 2,
 					height: (rem * 2) * 2,
