@@ -28,10 +28,11 @@ import PlayAlbum from '../svg/PlayAlbum.svg';
  * @type {React.FC<{
  * 		Name: String,
  * 		ProfilePicture: String,
+ * 		Role: String,
  * 		(property) style?: TextStyle
  * }>}
  */
-const DeveloperCard = ({ Name, ProfilePicture, style }) => {
+const DeveloperCard = ({ Name, ProfilePicture, Role, style }) => {
 	return (
 		<View
 			style={{
@@ -53,15 +54,34 @@ const DeveloperCard = ({ Name, ProfilePicture, style }) => {
 					borderRadius: (rem * 2) * 2
 				}}
 			/>
-			<Text
+
+			<View
 				style={{
-					width: '100%',
-					textAlign: 'center',
-					backgrgroundColor: '#00FF00',
+					width: (rem * 2) * 2,
+					display: 'flex',
+					alignItems: 'flex-start',
+					justifyContent: 'flex-start'
 				}}
 			>
-				{Name}
-			</Text>
+				<Text
+					style={{
+						width: '100%',
+						textAlign: 'center'
+					}}
+				>
+					{Name}
+				</Text>
+				<Text
+					style={{
+						width: '100%',
+						textAlign: 'center',
+						fontStyle: 'italic',
+						color: colors.primary
+					}}
+				>
+					{Role}
+				</Text>
+			</View>
 		</View>
 	);
 };

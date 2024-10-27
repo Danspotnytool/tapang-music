@@ -161,30 +161,37 @@ const AboutUs = (props) => {
 							<DeveloperCard
 								Name='Phia'
 								ProfilePicture={Phia}
+								Role='UI Design Principles'
 							/>
 							<DeveloperCard
 								Name='Banzal'
 								ProfilePicture={Banzal}
+								Role='Typography'
 							/>
 							<DeveloperCard
 								Name='Jimwell'
 								ProfilePicture={Jimwell}
+								Role='Spacing'
 							/>
 							<DeveloperCard
 								Name='Endrina'
 								ProfilePicture={Endrina}
+								Role='60-30-10 Rule'
 							/>
 							<DeveloperCard
 								Name='Robles'
 								ProfilePicture={Robles}
+								Role='Color Theory'
 							/>
 							<DeveloperCard
 								Name='Johnny'
 								ProfilePicture={Johnny}
+								Role='User Persona'
 							/>
 							<DeveloperCard
 								Name='Baynosa'
 								ProfilePicture={Baynosa}
+								Role='UX Design Law'
 							/>
 							</View>
 						</View>
