@@ -46,7 +46,7 @@ const DeveloperCard = ({ Name, ProfilePicture, style }) => {
 			}}
 		>
 			<Image
-				source={{ uri: ProfilePicture || require('../images/placeholder.png') }}
+				source={ProfilePicture}
 				style={{
 					width: (rem * 2) * 2,
 					height: (rem * 2) * 2,

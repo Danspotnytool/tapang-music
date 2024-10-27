@@ -24,6 +24,14 @@ import AboutIcon from '../svg/AboutIcon-Active.svg';
 import HomeIcon from '../svg/HomeIcon.svg';
 import LogoutIcon from '../svg/LogoutIcon.svg';
 
+import Phia from '../images/developers/Phia.jpg';
+import Banzal from '../images/developers/Banzal.jpg';
+import Jimwell from '../images/developers/Jimwell.jpg';
+import Endrina from '../images/developers/Endrina.jpg';
+import Robles from '../images/developers/Robles.jpg';
+import Johnny from '../images/developers/Johnny.jpg';
+import Baynosa from '../images/developers/Baynosa.jpg';
+
 const SCREEN_HEIGHT = Dimensions.get('screen').height; // device height
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 24;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -151,31 +159,31 @@ const AboutUs = (props) => {
 							>
 							<DeveloperCard
 								Name='Phia'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-1/370429648_2427521937425262_5261508596400208944_n.jpg?stp=dst-jpg_s200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeGti8nl85WVxL-88B0AXoxoqglvCjPPnfiqCW8KM8-d-FururIya8sfaM2oYpvf-dMS_ho0oek-vKh79qa46vN5&_nc_ohc=rkhBRHdMCWwQ7kNvgGIO1Rg&_nc_zt=24&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=AEvPU5F7QcndCoH63vj-Bv5&oh=00_AYABvgfWgzsEeRMxVxe5K9GlutOAMBP_EkdmGYhxVqmtjA&oe=671AA01C'
+								ProfilePicture={Phia}
 							/>
 							<DeveloperCard
 								Name='Banzal'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-6/274103233_3199710353647722_7652857456525015074_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGZQLo-0fmEaQ5WO99X7zwhHf1p2BdD_Q4d_WnYF0P9DnX-zpd43ki1kVrH3GCFDTOJSl4imSdZk3qp0kXgbNan&_nc_ohc=YH3BMfDDkM8Q7kNvgHnjWUs&_nc_zt=23&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=Azgr_gY7-b1zzo-QPrHUfCV&oh=00_AYBA0hQihBfapSyOsDIjlqWaXEvWp3Th4nwwe5GSkEPVdA&oe=671A9A7C'
+								ProfilePicture={Banzal}
 							/>
 							<DeveloperCard
 								Name='Jimwell'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-1/416903498_1778623789278403_6191124790904108983_n.jpg?stp=dst-jpg_s200x200&_nc_cat=107&ccb=1-7&_nc_sid=50d2ac&_nc_eui2=AeFOkn5Z-jH0LBVuzq-lLV-GGQ_4TMS3CisZD_hMxLcKK-YtwfNe0Z0AzSEP-r6bdQKqPr0tqINbbKu8QV4Uda-j&_nc_ohc=68nPK-QkT-kQ7kNvgECFxbM&_nc_zt=24&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=Aytp9shYVkRkgolHGdwMpPH&oh=00_AYDvWkSczu8Z5Y54jB5_6zpWwyc19eI4-vkcAHXEdl1e6g&oe=671AB015'
+								ProfilePicture={Jimwell}
 							/>
 							<DeveloperCard
 								Name='Endrina'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-6/461921444_3371252989849938_5463118529123614148_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGhsPvR8GNS0A9mCf2stdN40Mh4LaZMuJ3QyHgtpky4nXlc4APIaamRJqLRW77eoAhxK0BcdPDDNnjpvr1rRpoy&_nc_ohc=JpuYY3p0pI4Q7kNvgHVWG75&_nc_zt=23&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=A7CYw3yCmLDTAZJ7tMirXVD&oh=00_AYDbFkPG81UrM_CIpYxpW7F-5i_OPx4jUk0upuGQvNvOng&oe=671A94D1'
+								ProfilePicture={Endrina}
 							/>
 							<DeveloperCard
 								Name='Robles'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-6/463836373_8371383986231881_7856092670529528552_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFCLmTtoPkFKgk0CSNpwsgvjh_Q6Cl14V2OH9DoKXXhXc1PVRUzmn8j54NSpNWkCyj5pmOC9tz0mAYxsys-BcDx&_nc_ohc=x05dduY4hw0Q7kNvgEyOaoQ&_nc_zt=23&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=A5am13jaDyy6RD5pE1Ys9_3&oh=00_AYAmApD40_rf60tFjtpFyFr-kaXwl1Bcm5Ui7Hm8zP4SNw&oe=671AB631'
+								ProfilePicture={Robles}
 							/>
 							<DeveloperCard
 								Name='Johnny'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-6/462459709_1710675469704101_1986953036859611115_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGlmOet-ir-_Wi90dHCXZlXGzLRwXmHgbsbMtHBeYeBu4Ol0AD7SxlZQVPuSU9Iw9UqMjBrSKfkF6ff3Jr6TTqe&_nc_ohc=HA-uft7JR20Q7kNvgHnYt6-&_nc_zt=23&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=AqZzLHmr4UX6kmRBuq6VnPG&oh=00_AYBgFgj1shevrvfJt_DqCtDC2ehqGC4DtYTGhWwAPGdXww&oe=671A98A2'
+								ProfilePicture={Johnny}
 							/>
 							<DeveloperCard
 								Name='Baynosa'
-								ProfilePicture='https://scontent.fmnl32-1.fna.fbcdn.net/v/t39.30808-6/462448920_1842292009513744_8992151125611768911_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFPjd_CGQcCwBBdT-1TGLPe66R1mHQUrOvrpHWYdBSs6xK2K4-Jnri59E1f5KHu5QDxfxS6-FtyE_iTcEKVzgN_&_nc_ohc=e7zfm0CPnCgQ7kNvgFZjv4_&_nc_zt=23&_nc_ht=scontent.fmnl32-1.fna&_nc_gid=AIz8ACfeqoxYXKR1iGy-fVE&oh=00_AYCo-emMblfev47sjE7uSwu-m3SCX0LTMRQKcYdcacTx-Q&oe=671A91EB'
+								ProfilePicture={Baynosa}
 							/>
 							</View>
 						</View>
