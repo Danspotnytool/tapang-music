@@ -47,7 +47,7 @@ const SignIn = (props) => {
 	const [ScreenY, setScreenY] = React.useState(0);
 
 	Keyboard.addListener('keyboardDidShow', (event) => {
-		setScreenY(-event.endCoordinates.height / 2);
+		setScreenY(-event.endCoordinates.height);
 	});
 	Keyboard.addListener('keyboardDidHide', (event) => {
 		setScreenY(0);

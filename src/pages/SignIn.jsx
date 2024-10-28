@@ -48,7 +48,7 @@ const SignIn = (props) => {
 	const [ScreenY, setScreenY] = React.useState(0);
 
 	Keyboard.addListener('keyboardDidShow', (event) => {
-		setScreenY(-event.endCoordinates.height / 2);
+		setScreenY(-event.endCoordinates.height);
 	});
 	Keyboard.addListener('keyboardDidHide', (event) => {
 		setScreenY(0);
@@ -126,10 +126,6 @@ const SignIn = (props) => {
 								onChangeText={(text) => {
 									setEmail(text);
 								}}
-								onFocus={(event) => {
-								}}
-								onBlur={(event) => {
-								}}
 							/>
 							<Input
 								label='Password'
@@ -138,10 +134,6 @@ const SignIn = (props) => {
 
 								onChangeText={(text) => {
 									setPassword(text);
-								}}
-								onFocus={(event) => {
-								}}
-								onBlur={(event) => {
 								}}
 							/>
 

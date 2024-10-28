@@ -88,13 +88,9 @@ const Input = (props) => {
 				placeholder={props.placeholder}
 				secureTextEntry={props.type === 'password'}
 
-				onChangeText={props.onChangeText}
-				onFocus={(event) => {
-					props.onFocus(event);
-					event.target.measure((x, y, width, height, pageX, pageY) => {
-					});
-				}}
-				onBlur={props.onBlur}
+				onChangeText={props.onChangeText ? props.onChangeText : null}
+				onFocus={props.onFocus ? props.onFocus : null}
+				onBlur={props.onBlur ? props.onBlur : null}
 			/>
 		</View>
 	);
