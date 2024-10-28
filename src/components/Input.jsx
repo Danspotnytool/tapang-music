@@ -25,6 +25,9 @@ import marginCreator from '../utils/marginCreator';
  * @type {React.FC<{
  * 		label: String,
  * 		placeholder: String,
+ * 		onChangeText: (text: String) => void,
+ * 		onFocus: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void,
+ * 		onBlur: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void,
  * 		(property) style?: TextStyle,
  * 		type: 'text' | 'password'
  * }>}
@@ -84,6 +87,14 @@ const Input = (props) => {
 				}}
 				placeholder={props.placeholder}
 				secureTextEntry={props.type === 'password'}
+
+				onChangeText={props.onChangeText}
+				onFocus={(event) => {
+					props.onFocus(event);
+					event.target.measure((x, y, width, height, pageX, pageY) => {
+					});
+				}}
+				onBlur={props.onBlur}
 			/>
 		</View>
 	);

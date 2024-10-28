@@ -13,8 +13,7 @@ import {
 	padding,
 	rem,
 	gap,
-	fontWeights,
-	size
+	fontWeights
 } from '../utils/globals';
 import paddingCreator from '../utils/paddingCreator';
 
@@ -31,15 +30,15 @@ const SignIn = (props) => {
 	const [Email, setEmail] = React.useState('');
 	const [Password, setPassword] = React.useState('');
 
-	const handleSignIn = async () => {
+	const handleSignUp = async () => {
 		if (Email === '' || Password === '') {
 			ToastAndroid.show('Please fill in all fields.', ToastAndroid.SHORT);
 			return;
 		};
 		try {
-			const response = await firebase.auth().signInWithEmailAndPassword(Email, Password);
-			ToastAndroid.show('Signed in successfully.', ToastAndroid.SHORT);
-			props.navigation.navigate('Home');
+			const response = await firebase.auth().createUserWithEmailAndPassword(Email, Password);
+			ToastAndroid.show('Account created successfully.', ToastAndroid.SHORT);
+			props.navigation.navigate('SignIn');
 		} catch (error) {
 			ToastAndroid.show('An error occurred.', ToastAndroid.SHORT);
 		};
@@ -108,6 +107,7 @@ const SignIn = (props) => {
 								width={(rem * 2) * 4}
 								height={(rem * 2) * 4}
 							/>
+							<Heading level={3} style={{ textAlign: 'center' }}>Welcome to</Heading>
 							<Heading level={1} style={{ textAlign: 'center' }}>Tapang Music</Heading>
 						</View>
 
@@ -126,10 +126,6 @@ const SignIn = (props) => {
 								onChangeText={(text) => {
 									setEmail(text);
 								}}
-								onFocus={(event) => {
-								}}
-								onBlur={(event) => {
-								}}
 							/>
 							<Input
 								label='Password'
@@ -139,14 +135,10 @@ const SignIn = (props) => {
 								onChangeText={(text) => {
 									setPassword(text);
 								}}
-								onFocus={(event) => {
-								}}
-								onBlur={(event) => {
-								}}
 							/>
 
-							<Button label='Sign In' type='primary' width='fill' onPress={() => {
-								handleSignIn();
+							<Button label='Sign Up' type='primary' width='fill' onPress={() => {
+								handleSignUp();
 							}} />
 						</View>
 
@@ -166,12 +158,12 @@ const SignIn = (props) => {
 									fontWeight: fontWeights.thin
 								}}
 								weight='thin'
-							>Don't have an account? <Text
+							>Already have an account? <Text
 								weight='regular'
 								onPress={() => {
-									props.navigation.navigate('SignUp');
+									props.navigation.navigate('SignIn');
 								}}
-							>Sign up now!</Text></Text>
+							>Sign in now!</Text></Text>
 						</View>
 					</View>
 				</ImageBackground>
